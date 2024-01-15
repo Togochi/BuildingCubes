@@ -32,4 +32,9 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+private:
+	void MoveForward(float Value);
+	void MoveRight(float Value);
+	void StartAction();
+	void EndAction();
 };
