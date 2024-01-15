@@ -26,6 +26,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components")
 	USkeletalMeshComponent* BC_FirstPersonMesh;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components")
+	USkeletalMeshComponent* BC_FirstPersonGun;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components")
+	UStaticMeshComponent* BC_LightSphere;
+
 public:	
 	
 	virtual void Tick(float DeltaTime) override;
