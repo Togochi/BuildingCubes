@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "BC_BuildingComponent.generated.h"
 
+class ABC_C_Character;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUILDINGCUBES_API UBC_BuildingComponent : public UActorComponent
@@ -13,16 +14,24 @@ class BUILDINGCUBES_API UBC_BuildingComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
+	
 	UBC_BuildingComponent();
 
+	void StartAction();
+	void EndAction();
+
 protected:
-	// Called when the game starts
+	
 	virtual void BeginPlay() override;
 
+	
+
 public:	
-	// Called every frame
+	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+private:
+	UPROPERTY()
+	ABC_C_Character* M_Owner;
 		
 };

@@ -3,6 +3,7 @@
 
 #include "Character/BC_C_Character.h"
 #include "Camera/CameraComponent.h"
+#include "Components/BC_BuildingComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogBC_Character, All, All);
 
@@ -20,6 +21,10 @@ ABC_C_Character::ABC_C_Character()
 
 	BC_LightSphere = CreateDefaultSubobject<UStaticMeshComponent>("BC_LightSphere");
 	BC_LightSphere->SetupAttachment(GetRootComponent());
+
+	BC_BuildingComponent = CreateDefaultSubobject<UBC_BuildingComponent>("BC_BuldingComponent");
+
+
 }
 
 
@@ -58,21 +63,24 @@ void ABC_C_Character::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void ABC_C_Character::MoveForward(float Value)
 {
+	if (FMath::IsNearlyZero(Value)) return;
 	AddMovementInput(GetActorForwardVector(), Value);
 }
 
 void ABC_C_Character::MoveRight(float Value)
 {
+	if (FMath::IsNearlyZero(Value)) return;
 	AddMovementInput(GetActorRightVector(), Value);
 }
 
 void ABC_C_Character::StartAction()
 {
-	UE_LOG(LogBC_Character, Display, TEXT("Start Action"));
+	BC_BuildingComponent->StartAction();
 }
 
 void ABC_C_Character::EndAction()
 {
-	UE_LOG(LogBC_Character, Display, TEXT("End Action"));
+	BC_BuildingComponent->EndAction();
+	
 }
 
