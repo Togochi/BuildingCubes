@@ -30,12 +30,22 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Subclass")
 	TSubclassOf<AActor> BigBlockClass;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Trace")
+	float MaxTraceDistance = 3000.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Trace")
+	float WithoutHitDistance = 500.f;
+
+
 public:	
 	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	bool M_isStartAction;
+	bool M_isStartBuilding;
+	bool M_isStartDestroy;
+	bool M_isStartPreview;
+
 	EActionType M_CurrentAction;
 
 
@@ -45,6 +55,8 @@ private:
 	UPROPERTY()
 	ABC_C_BaseBlock* M_CurrentBlock;
 
-	void DrawTrace(FHitResult& HitResult);
+	void DrawTrace(TArray<AActor*> IgnoredActors, FHitResult& HitResult, float MaxDiatance);
+	bool CreateBlock(const FHitResult& HitResult);
+	void CalculateStartEndLoc(float Distance, FVector& StartLoc, FVector& EndLoc);
 		
 };
