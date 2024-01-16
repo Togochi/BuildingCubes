@@ -2,7 +2,7 @@
 
 
 #include "Components/BC_BuildingComponent.h"
-
+#include "BuildingCubes/Public/BC_C_BaseBlock.h"
 #include "Camera/CameraComponent.h"
 #include "Character/BC_C_Character.h"
 #include "Kismet/KismetSystemLibrary.h"
@@ -46,6 +46,20 @@ void UBC_BuildingComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 	{
 		FHitResult HitResult;
 		this->DrawTrace(HitResult);
+
+		if (HitResult.bBlockingHit)
+		{
+			if (!IsValid(M_CurrentBlock) && BigBlockClass)
+			{
+				FTransform Transform;
+				Transform.SetLocation(HitResult.Location);
+				M_CurrentBlock = GetWorld()->SpawnActor<ABC_C_BaseBlock>(BigBlockClass, Transform);
+			}
+			else if (IsValid(M_CurrentBlock))
+			{
+				M_CurrentBlock->SetActorLocation(HitResult.Location);
+			}
+		}
 	}
 }
 
@@ -53,6 +67,7 @@ void UBC_BuildingComponent::DrawTrace(FHitResult& HitResult)
 {
 	TArray<AActor*> IgnoredActors;
 	IgnoredActors.Add(this->M_Owner);
+	IgnoredActors.AddUnique(this->M_CurrentBlock);
 
 	if (!IsValid(this->M_Owner)) return;
 	const FVector StartLoc = M_Owner->BC_LightSphere->GetComponentLocation();
@@ -65,7 +80,7 @@ void UBC_BuildingComponent::DrawTrace(FHitResult& HitResult)
 		TraceTypeQuery1,
 		false,
 		IgnoredActors,
-		EDrawDebugTrace::ForDuration,
+		EDrawDebugTrace::ForOneFrame,
 		HitResult,
 		true,
 		FLinearColor::Red,

@@ -8,6 +8,7 @@
 #include "BC_BuildingComponent.generated.h"
 
 class ABC_C_Character;
+class ABC_C_BaseBlock;
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -26,7 +27,8 @@ protected:
 	
 	virtual void BeginPlay() override;
 
-	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Subclass")
+	TSubclassOf<AActor> BigBlockClass;
 
 public:	
 	
@@ -39,6 +41,9 @@ private:
 
 	UPROPERTY()
 	ABC_C_Character* M_Owner;
+
+	UPROPERTY()
+	ABC_C_BaseBlock* M_CurrentBlock;
 
 	void DrawTrace(FHitResult& HitResult);
 		
