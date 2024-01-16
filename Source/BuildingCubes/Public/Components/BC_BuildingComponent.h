@@ -36,6 +36,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Trace")
 	float WithoutHitDistance = 500.f;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Materials")
+	TArray<FBlockMaterialPair> BlockMaterialPairs;
+
 
 public:	
 	
@@ -48,6 +51,8 @@ private:
 
 	EActionType M_CurrentAction;
 
+	FVector M_BlockLoc;
+
 
 	UPROPERTY()
 	ABC_C_Character* M_Owner;
@@ -55,8 +60,15 @@ private:
 	UPROPERTY()
 	ABC_C_BaseBlock* M_CurrentBlock;
 
+	UPROPERTY()
+	UMaterialInstanceDynamic* M_CurrentPreviewMat;
+
+	UPROPERTY()
+	UMaterialInstanceDynamic* M_CurrentBaseMat;
+
 	void DrawTrace(TArray<AActor*> IgnoredActors, FHitResult& HitResult, float MaxDiatance);
 	bool CreateBlock(const FHitResult& HitResult);
 	void CalculateStartEndLoc(float Distance, FVector& StartLoc, FVector& EndLoc);
+	void SetBlockLocation(const FHitResult& HitResult);
 		
 };
