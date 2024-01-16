@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "BC_BuildingCubes/BC_Variables.h"
 #include "BC_BuildingComponent.generated.h"
+
 
 class ABC_C_Character;
 
@@ -33,5 +35,7 @@ public:
 private:
 	UPROPERTY()
 	ABC_C_Character* M_Owner;
+
+	void DrawTrace(FHitResult& HitResult);
 		
 };
