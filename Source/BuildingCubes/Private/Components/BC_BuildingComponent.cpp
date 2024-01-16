@@ -2,6 +2,7 @@
 
 
 #include "Components/BC_BuildingComponent.h"
+
 #include "Camera/CameraComponent.h"
 #include "Character/BC_C_Character.h"
 #include "Kismet/KismetSystemLibrary.h"
@@ -21,30 +22,31 @@ void UBC_BuildingComponent::BeginPlay()
 	Super::BeginPlay();
 
 	M_Owner = Cast<ABC_C_Character>(GetOwner());
+	M_CurrentAction = EActionType::Building;
 	
 }
 
 void UBC_BuildingComponent::StartAction()
 {
-	FHitResult HitResult;
-
+	this->M_isStartAction = true;
 	UE_LOG(LogBC_BuildingComponent, Display, TEXT("Start Action"));
-	if (HitResult.bBlockingHit)
-	{
-		UE_LOG(LogBC_BuildingComponent, Display, TEXT("Hit Actor: %s"), *HitResult.GetActor()->GetName());
-	}
 }
 
 void UBC_BuildingComponent::EndAction()
 {
+	this->M_isStartAction = false;
 	UE_LOG(LogBC_BuildingComponent, Display, TEXT("End Action"));
-
 }
 
 void UBC_BuildingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	if (this->M_isStartAction && M_CurrentAction == EActionType::Building)
+	{
+		FHitResult HitResult;
+		this->DrawTrace(HitResult);
+	}
 }
 
 void UBC_BuildingComponent::DrawTrace(FHitResult& HitResult)
