@@ -55,10 +55,13 @@ void ABC_C_Character::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAxis(FName("Move Right / Left"), this, &ABC_C_Character::MoveRight);
 	PlayerInputComponent->BindAxis(FName("Turn Right / Left Mouse"), this, &ABC_C_Character::AddControllerYawInput);
 	PlayerInputComponent->BindAxis(FName("Look Up / Down Mouse"), this, &ABC_C_Character::AddControllerPitchInput);
+	PlayerInputComponent->BindAxis(FName("Change Material"), this, &ABC_C_Character::ChangeMaterial);
 
 	PlayerInputComponent->BindAction(FName("Jump"), IE_Pressed, this, &ABC_C_Character::Jump);
 	PlayerInputComponent->BindAction(FName("PrimaryAction"), IE_Pressed, this, &ABC_C_Character::StartAction);
 	PlayerInputComponent->BindAction(FName("PrimaryAction"), IE_Released, this, &ABC_C_Character::EndAction);
+	PlayerInputComponent->BindAction(FName("Switch Action"), IE_Pressed, this, &ABC_C_Character::SwitchAction);
+	PlayerInputComponent->BindAction(FName("Change Block"), IE_Pressed, this, &ABC_C_Character::ChangeBlock);
 }
 
 void ABC_C_Character::MoveForward(float Value)
@@ -82,5 +85,21 @@ void ABC_C_Character::EndAction()
 {
 	BC_BuildingComponent->EndAction();
 	
+}
+
+void ABC_C_Character::ChangeMaterial(float Value)
+{
+	if (FMath::IsNearlyZero(Value)) return;
+	BC_BuildingComponent->ChangeMaterial(Value);
+}
+
+void ABC_C_Character::SwitchAction()
+{
+	BC_BuildingComponent->SwitchAction();
+}
+
+void ABC_C_Character::ChangeBlock()
+{
+	BC_BuildingComponent->ChangeBlock();
 }
 

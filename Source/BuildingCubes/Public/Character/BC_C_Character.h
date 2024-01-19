@@ -49,4 +49,7 @@ private:
 	void MoveRight(float Value);
 	void StartAction();
 	void EndAction();
+	void ChangeMaterial(float Value);
+	void SwitchAction();
+	void ChangeBlock();
 };

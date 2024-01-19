@@ -22,13 +22,16 @@ public:
 
 	void StartAction();
 	void EndAction();
+	void ChangeMaterial(float Value);
+	void SwitchAction();
+	void ChangeBlock();
 
 protected:
 	
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Subclass")
-	TSubclassOf<AActor> BigBlockClass;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Subclasses")
+	TArray<TSubclassOf<AActor>> BlocksClasses;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Trace")
 	float MaxTraceDistance = 3000.f;
@@ -49,6 +52,12 @@ private:
 	bool M_isStartDestroy;
 	bool M_isStartPreview;
 
+	int32 M_CurrentMatIndex;
+	int32 M_CurrentBlockIndex;
+	int32 M_DeltaIndex;
+
+	float M_CurrentBlockExtend;
+
 	EActionType M_CurrentAction;
 
 	FVector M_BlockLoc;
@@ -61,14 +70,19 @@ private:
 	ABC_C_BaseBlock* M_CurrentBlock;
 
 	UPROPERTY()
-	UMaterialInstanceDynamic* M_CurrentPreviewMat;
+	UMaterialInstanceDynamic* M_CurrentMat;
 
 	UPROPERTY()
-	UMaterialInstanceDynamic* M_CurrentBaseMat;
+	UMaterialInstanceDynamic* M_LightSphereMat;
+
+	UPROPERTY()
+	AActor* M_HitActor;
+
 
 	void DrawTrace(TArray<AActor*> IgnoredActors, FHitResult& HitResult, float MaxDiatance);
 	bool CreateBlock(const FHitResult& HitResult);
 	void CalculateStartEndLoc(float Distance, FVector& StartLoc, FVector& EndLoc);
 	void SetBlockLocation(const FHitResult& HitResult);
+	void CreateAndSetMaterial(UMaterialInterface* ParentMaterial);
 		
 };
